@@ -69,9 +69,9 @@ export function Navigation() {
             href="/"
             className="flex items-center gap-1.5 font-bold text-lg hover:opacity-80 transition-opacity"
           >
-            <span className="text-[#E4002B]">SKT</span>
+            <span className="text-[#E4002B]">휴대폰성지</span>
             <span className="transition-colors text-gray-800">
-              공식인증대리점
+              워니 컴퍼니
             </span>
           </Link>
         ) : (
@@ -80,12 +80,12 @@ export function Navigation() {
             onClick={(e) => handleNavClick(e, '#top')}
             className="flex items-center gap-1.5 font-bold text-lg hover:opacity-80 transition-opacity"
           >
-            <span className="text-[#E4002B]">SKT</span>
+            <span className="text-[#E4002B]">휴대폰성지</span>
             <span className={cn(
               'transition-colors',
               isScrolled ? 'text-gray-800' : 'text-gray-800'
             )}>
-              공식인증대리점
+              워니 컴퍼니
             </span>
           </a>
         )}

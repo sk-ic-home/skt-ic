@@ -63,7 +63,7 @@ function HeroSection() {
           >
             <Shield className="w-4 h-4 text-[#E4002B]" />
             <span className="text-[#E4002B] font-medium text-sm">
-              SKT 공식인증대리점
+              휴대폰 성지 워니컴퍼니
             </span>
           </motion.div>
 
@@ -86,7 +86,7 @@ function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base md:text-lg text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed"
           >
-            SKT 공식인증대리점에서만 제공하는
+            워니 컴퍼니에서만 제공하는
             <br />
             특별한 혜택을 지금 바로 확인하세요
           </motion.p>
@@ -148,7 +148,7 @@ function HeroSection() {
                     </span>
                   </div>
                   <p className="font-semibold text-gray-900 text-sm">
-                    SKT 공식 사전승낙대리점
+                    판매점 사전승낙서
                   </p>
                   <p className="text-xs text-gray-500">
                     사전승낙번호 제 2024-XXXX-XXXX 호
@@ -222,7 +222,7 @@ function BenefitsSection() {
             Special Benefits
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            SKT 공식인증센터만의 특별 혜택
+            워니 컴퍼니만의 특별 혜택
           </h2>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto">
             고객님께 최고의 조건을 제공해드리기 위해 최선을 다합니다.
@@ -427,7 +427,7 @@ function TestimonialsSection() {
       name: '강*지',
       device: '아이폰16 Pro Max',
       content:
-        '공식인증대리점이라 믿고 맡겼는데 역시 기대 이상이었어요. 가족들도 여기서 할 예정이에요.',
+        '핸드폰 바꾸는 게 늘 어렵게 느껴졌는데 사장님이 쉽게 설명해주셔서 큰 도움이 됐습니다. 감사합니다^^',
       rating: 5,
     },
   ];
@@ -605,11 +605,7 @@ function LocationSection() {
 
 /** FAQ 데이터 */
 const FAQ_DATA = [
-  {
-    question: 'SKT 공식인증대리점이란 무엇인가요?',
-    answer:
-      'SKT로부터 공식적으로 인증받은 대리점으로, 정식 계약을 통해 운영되며 안전하고 신뢰할 수 있는 서비스를 제공합니다. KAIT(한국정보통신진흥협회)에서 인증한 사전승낙번호를 보유하고 있습니다.',
-  },
+ 
   {
     question: '상담 신청 후 얼마나 빨리 연락받을 수 있나요?',
     answer:
@@ -740,7 +736,7 @@ function ContactSection() {
                 Contact
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                SKT 최대 혜택,
+                워니 컴퍼니 최대 혜택,
                 <br />
                 무엇이든 물어보세요
               </h2>

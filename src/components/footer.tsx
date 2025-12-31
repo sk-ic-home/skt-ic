@@ -37,12 +37,12 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 bg-[#E4002B] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SK</span>
+                <span className="text-white font-bold text-sm">성지</span>
               </div>
-              <span className="text-white font-bold text-lg">공식인증센터</span>
+              <span className="text-white font-bold text-lg">휴대폰 판매점</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              SKT 공식 인증 대리점으로서 고객님께 최고의 혜택과 서비스를 제공해
+              워니 컴퍼니에서 고객님께 최고의 혜택과 서비스를 제공해
               드립니다.
             </p>
           </div>
@@ -108,8 +108,7 @@ export function Footer() {
 
           <div className="mt-6 pt-4 border-t border-gray-800">
             <p className="text-xs text-gray-500">
-              © 2025 SKT 공식인증센터. All rights reserved. 본 사이트는 SKT 공식
-              인증 대리점의 온라인 가입 센터입니다.
+              © 2025 워니 컴퍼니. All rights reserved.
             </p>
           </div>
         </div>
