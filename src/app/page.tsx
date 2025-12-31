@@ -287,6 +287,27 @@ const CONSULTATION_DATA = [
   { name: '김*조', phone: '010-0000-**14', device: '갤럭시 Z플립7', time: '10분 전' },
 ];
 
+/** 상담 항목 컴포넌트 - 자연스러운 페이드 전환 */
+function ConsultationItem({ item }: { item: (typeof CONSULTATION_DATA)[0] }) {
+  return (
+    <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center justify-between gap-4">
+      <div className="flex items-center gap-3">
+        <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex-shrink-0" />
+        <div className="min-w-0">
+          <p className="font-medium text-gray-900 text-sm">
+            <span className="text-[#E4002B] font-semibold">{item.name}</span>님{' '}
+            {item.device} 상담 신청
+          </p>
+          <p className="text-xs text-gray-400">{item.time}</p>
+        </div>
+      </div>
+      <span className="hidden sm:inline-block bg-[#E4002B]/10 text-[#E4002B] px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
+        접수완료
+      </span>
+    </div>
+  );
+}
+
 /** 실시간 상담 접수 현황 섹션 */
 function StatusSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -294,7 +315,7 @@ function StatusSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % CONSULTATION_DATA.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -307,7 +328,7 @@ function StatusSection() {
   ];
 
   return (
-    <section id="status" className="py-24 bg-white overflow-hidden">
+    <section id="status" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         {/* 섹션 헤더 */}
         <div className="text-center mb-12">
@@ -325,46 +346,19 @@ function StatusSection() {
 
         {/* 롤링 애니메이션 영역 */}
         <div className="max-w-2xl mx-auto">
-          <div className="bg-[#FDF9F7] rounded-3xl p-6 md:p-8 relative overflow-hidden">
-            {/* 롤링 아이템 리스트 */}
-            <div className="space-y-3 relative">
-              <AnimatePresence mode="popLayout">
-                {visibleItems.map((item, index) => (
-                  <motion.div
-                    key={`${item.name}-${item.phone}-${currentIndex}-${index}`}
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -40 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.08,
-                      ease: 'easeOut',
-                    }}
-                    className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center justify-between gap-4"
-                  >
-                    <div className="flex items-center gap-3">
-                      {/* 상태 인디케이터 */}
-                      <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex-shrink-0" />
-
-                      {/* 고객 정보 */}
-                      <div>
-                        <p className="font-medium text-gray-900 text-sm">
-                          <span className="text-[#E4002B] font-semibold">
-                            {item.name}
-                          </span>
-                          님 {item.device} 상담 신청
-                        </p>
-                        <p className="text-xs text-gray-400">{item.time}</p>
-                      </div>
-                    </div>
-
-                    {/* 완료 뱃지 */}
-                    <span className="hidden sm:inline-block bg-[#E4002B]/10 text-[#E4002B] px-3 py-1 rounded-full text-xs font-medium">
-                      접수완료
-                    </span>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+          <div className="bg-[#FDF9F7] rounded-3xl p-6 md:p-8">
+            {/* 롤링 아이템 리스트 - 고정 레이아웃 */}
+            <div className="space-y-3">
+              {visibleItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={false}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ConsultationItem item={item} />
+                </motion.div>
+              ))}
             </div>
           </div>
 
