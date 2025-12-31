@@ -326,9 +326,9 @@ function StatusSection() {
         {/* 롤링 애니메이션 영역 */}
         <div className="max-w-2xl mx-auto">
           <div className="bg-[#FDF9F7] rounded-3xl p-6 md:p-8 relative overflow-hidden">
-            {/* 롤링 아이템 리스트 */}
-            <div className="space-y-3 relative">
-              <AnimatePresence mode="popLayout">
+            {/* 롤링 아이템 리스트 - 고정 높이로 아래 섹션 움직임 방지 */}
+            <div className="space-y-3 relative h-[280px] md:h-[272px]">
+              <AnimatePresence mode="popLayout" initial={false}>
                 {visibleItems.map((item, index) => (
                   <motion.div
                     key={`${item.name}-${item.phone}-${currentIndex}-${index}`}
