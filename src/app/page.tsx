@@ -63,7 +63,7 @@ function HeroSection() {
           >
             <Shield className="w-4 h-4 text-[#E4002B]" />
             <span className="text-[#E4002B] font-medium text-sm">
-              SKT 공식인증대리점
+              휴대폰 성지 워니컴퍼니
             </span>
           </motion.div>
 
@@ -86,7 +86,7 @@ function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base md:text-lg text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed"
           >
-            SKT 공식인증대리점에서만 제공하는
+            워니 컴퍼니에서만 제공하는
             <br />
             특별한 혜택을 지금 바로 확인하세요
           </motion.p>
@@ -148,7 +148,7 @@ function HeroSection() {
                     </span>
                   </div>
                   <p className="font-semibold text-gray-900 text-sm">
-                    SKT 공식 사전승낙대리점
+                    판매점 사전승낙서
                   </p>
                   <p className="text-xs text-gray-500">
                     사전승낙번호 제 2024-XXXX-XXXX 호
@@ -222,7 +222,7 @@ function BenefitsSection() {
             Special Benefits
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            SKT 공식인증센터만의 특별 혜택
+            워니 컴퍼니만의 특별 혜택
           </h2>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto">
             고객님께 최고의 조건을 제공해드리기 위해 최선을 다합니다.
@@ -287,6 +287,27 @@ const CONSULTATION_DATA = [
   { name: '김*조', phone: '010-0000-**14', device: '갤럭시 Z플립7', time: '10분 전' },
 ];
 
+/** 상담 항목 컴포넌트 - 자연스러운 페이드 전환 */
+function ConsultationItem({ item }: { item: (typeof CONSULTATION_DATA)[0] }) {
+  return (
+    <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center justify-between gap-4">
+      <div className="flex items-center gap-3">
+        <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex-shrink-0" />
+        <div className="min-w-0">
+          <p className="font-medium text-gray-900 text-sm">
+            <span className="text-[#E4002B] font-semibold">{item.name}</span>님{' '}
+            {item.device} 상담 신청
+          </p>
+          <p className="text-xs text-gray-400">{item.time}</p>
+        </div>
+      </div>
+      <span className="hidden sm:inline-block bg-[#E4002B]/10 text-[#E4002B] px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
+        접수완료
+      </span>
+    </div>
+  );
+}
+
 /** 실시간 상담 접수 현황 섹션 */
 function StatusSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -294,7 +315,7 @@ function StatusSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % CONSULTATION_DATA.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -307,7 +328,7 @@ function StatusSection() {
   ];
 
   return (
-    <section id="status" className="py-24 bg-white overflow-hidden">
+    <section id="status" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         {/* 섹션 헤더 */}
         <div className="text-center mb-12">
@@ -325,46 +346,19 @@ function StatusSection() {
 
         {/* 롤링 애니메이션 영역 */}
         <div className="max-w-2xl mx-auto">
-          <div className="bg-[#FDF9F7] rounded-3xl p-6 md:p-8 relative overflow-hidden">
-            {/* 롤링 아이템 리스트 */}
-            <div className="space-y-3 relative">
-              <AnimatePresence mode="popLayout">
-                {visibleItems.map((item, index) => (
-                  <motion.div
-                    key={`${item.name}-${item.phone}-${currentIndex}-${index}`}
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -40 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.08,
-                      ease: 'easeOut',
-                    }}
-                    className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center justify-between gap-4"
-                  >
-                    <div className="flex items-center gap-3">
-                      {/* 상태 인디케이터 */}
-                      <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex-shrink-0" />
-
-                      {/* 고객 정보 */}
-                      <div>
-                        <p className="font-medium text-gray-900 text-sm">
-                          <span className="text-[#E4002B] font-semibold">
-                            {item.name}
-                          </span>
-                          님 {item.device} 상담 신청
-                        </p>
-                        <p className="text-xs text-gray-400">{item.time}</p>
-                      </div>
-                    </div>
-
-                    {/* 완료 뱃지 */}
-                    <span className="hidden sm:inline-block bg-[#E4002B]/10 text-[#E4002B] px-3 py-1 rounded-full text-xs font-medium">
-                      접수완료
-                    </span>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+          <div className="bg-[#FDF9F7] rounded-3xl p-6 md:p-8">
+            {/* 롤링 아이템 리스트 - 고정 레이아웃 */}
+            <div className="space-y-3">
+              {visibleItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={false}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ConsultationItem item={item} />
+                </motion.div>
+              ))}
             </div>
           </div>
 
@@ -433,7 +427,7 @@ function TestimonialsSection() {
       name: '강*지',
       device: '아이폰16 Pro Max',
       content:
-        '공식인증대리점이라 믿고 맡겼는데 역시 기대 이상이었어요. 가족들도 여기서 할 예정이에요.',
+        '핸드폰 바꾸는 게 늘 어렵게 느껴졌는데 사장님이 쉽게 설명해주셔서 큰 도움이 됐습니다. 감사합니다^^',
       rating: 5,
     },
   ];
@@ -611,11 +605,7 @@ function LocationSection() {
 
 /** FAQ 데이터 */
 const FAQ_DATA = [
-  {
-    question: 'SKT 공식인증대리점이란 무엇인가요?',
-    answer:
-      'SKT로부터 공식적으로 인증받은 대리점으로, 정식 계약을 통해 운영되며 안전하고 신뢰할 수 있는 서비스를 제공합니다. KAIT(한국정보통신진흥협회)에서 인증한 사전승낙번호를 보유하고 있습니다.',
-  },
+ 
   {
     question: '상담 신청 후 얼마나 빨리 연락받을 수 있나요?',
     answer:
@@ -746,7 +736,7 @@ function ContactSection() {
                 Contact
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                SKT 최대 혜택,
+                워니 컴퍼니 최대 혜택,
                 <br />
                 무엇이든 물어보세요
               </h2>
