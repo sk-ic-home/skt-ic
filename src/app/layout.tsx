@@ -6,8 +6,8 @@ import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'SKT 공식인증대리점',
-  description: 'SKT 공식인증대리점 - 최고의 혜택으로 스마트폰을 만나보세요',
+  title: '휴대폰성지 워니컴퍼니',
+  description: '휴대폰성지 워니컴퍼니 - 최고의 혜택으로 스마트폰을 만나보세요',
 };
 
 export default function RootLayout({
