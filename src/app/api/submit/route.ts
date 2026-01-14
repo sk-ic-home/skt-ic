@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase, ConsultationInsert } from '@/lib/supabase';
+import { ConsultationInsert } from '@/lib/supabase'; // 사용하지 않는 'supabase' 제거
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 import { z } from 'zod';
 
 /** Resend 클라이언트 */
+// 주의: process.env.RESEND_API_KEY가 Vercel 환경변수에 설정되어 있어야 합니다.
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 /** 요청 데이터 유효성 검사 스키마 */
@@ -37,15 +38,17 @@ async function sendNotificationEmail(data: ConsultationInsert) {
   const messageContent = data.message || '(작성 내용 없음)';
 
   try {
+    // [중요] Resend 도메인 설정이 안 되어 있다면 'onboarding@resend.dev'만 사용 가능합니다.
+    // 받는 사람(to)도 Resend 가입 이메일로 제한될 수 있습니다 (무료 플랜의 경우).
     await resend.emails.send({
-      from: 'SKT 상담신청 <onboarding@resend.dev>',
+      from: '휴대폰성지 워니 컴퍼니 상담신청 <onboarding@resend.dev>',
       to: adminEmail,
       subject: `[새로운 상담신청] ${data.customer_name}님 - ${data.desired_device}`,
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #E4002B 0%, #C50025 100%); padding: 30px; border-radius: 12px 12px 0 0;">
             <h1 style="color: white; margin: 0; font-size: 24px;">📱 새로운 상담 신청</h1>
-            <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">SKT 공식인증대리점 상담 요청이 접수되었습니다.</p>
+            <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">휴대폰성지 워니 컴퍼니 상담 요청이 접수되었습니다.</p>
           </div>
           
           <div style="background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px;">
@@ -80,7 +83,7 @@ async function sendNotificationEmail(data: ConsultationInsert) {
           </div>
           
           <p style="text-align: center; color: #9ca3af; font-size: 12px; margin-top: 20px;">
-            이 메일은 SKT 공식인증대리점 상담신청 시스템에서 자동 발송되었습니다.
+            이 메일은 휴대폰성지 워니 컴퍼니 상담신청 시스템에서 자동 발송되었습니다.
           </p>
         </div>
       `,
@@ -88,6 +91,7 @@ async function sendNotificationEmail(data: ConsultationInsert) {
 
     console.log('알림 이메일 발송 완료:', adminEmail);
   } catch (error) {
+    // 에러를 콘솔에 찍되, 클라이언트에게 에러를 뱉지는 않음 (데이터 저장은 성공했으므로)
     console.error('이메일 발송 실패:', error);
   }
 }
@@ -120,13 +124,12 @@ export async function POST(request: NextRequest) {
     };
 
     // [수정] 관리자 권한(Service Role)으로 클라이언트 생성
-    // 주의: process.env.SUPABASE_SERVICE_ROLE_KEY가 Vercel 환경변수에 꼭 있어야 합니다.
     const supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
 
-    // [수정] supabase -> supabaseAdmin 으로 변경하여 저장
+    // [수정] 관리자 권한으로 저장
     const { data, error } = await supabaseAdmin
       .from('consultations')
       .insert(insertData)
@@ -141,8 +144,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 이메일 알림 발송 (비동기, 실패해도 응답에 영향 없음)
-    sendNotificationEmail(insertData);
+    // [핵심 수정 사항] await 추가!
+    // 이메일 보내는 것을 기다렸다가 응답을 줘야 Vercel에서 이메일이 안 끊깁니다.
+    await sendNotificationEmail(insertData);
 
     return NextResponse.json(
       { success: true, message: '상담 신청이 완료되었습니다.', data },
@@ -156,5 +160,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-
