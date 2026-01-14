@@ -119,8 +119,15 @@ export async function POST(request: NextRequest) {
       privacy_consent: privacyConsent,
     };
 
-    // Supabase에 데이터 저장
-    const { data, error } = await supabase
+    // [수정] 관리자 권한(Service Role)으로 클라이언트 생성
+    // 주의: process.env.SUPABASE_SERVICE_ROLE_KEY가 Vercel 환경변수에 꼭 있어야 합니다.
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    // [수정] supabase -> supabaseAdmin 으로 변경하여 저장
+    const { data, error } = await supabaseAdmin
       .from('consultations')
       .insert(insertData)
       .select()
