@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase, ConsultationInsert } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 import { z } from 'zod';
 
